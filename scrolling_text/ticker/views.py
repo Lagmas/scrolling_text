@@ -1,33 +1,24 @@
-# from django.shortcuts import render
-
-
-# from django.http import HttpResponse
-
-
-# # Главная страница
-# # def index(request):    
-# #     return HttpResponse('Главная страница')
-
-# def index(request):
-#     template = 'ticker/index.html'
-#     return render(request, template)
-
-# app/views.py
 from django.shortcuts import render
 from django.http import HttpResponse
-from .models import Video
 from .utils import create_running_text_video
+import os
+
 
 def index(request):
-    template = 'ticker/index.html'
     if request.method == 'POST':
-        text = request.POST['text']
-        video_name = f'running_text_{text}.mp4'
-        create_running_text_video(text, 100, 100, 3)
-
-        video = Video.objects.create(name=video_name, file=video_name)
-        video.save()
-
-        return HttpResponse(f"Видео успешно создано: <a href='/media/{video.file}'>{video.name}</a>")
-    
-    return render(request, template)
+        text = request.POST.get('text', '')
+        if not (1 <= len(text) <= 40):
+            return HttpResponse('Количество символов должно быть от 1 до 40', status=400)
+        width = 100
+        height = 100
+        duration = 3
+        video_response = create_running_text_video(text, width, height, duration)
+        if video_response:
+            with open(video_response, 'rb') as file:
+                response = HttpResponse(file.read(), content_type='video/mp4')
+                name = "running_text.mp4"
+                response['Content-Disposition'] = f'attachment; filename={name}'
+                file.close()
+                os.remove(video_response)
+                return response
+    return render(request, 'ticker/index.html')
