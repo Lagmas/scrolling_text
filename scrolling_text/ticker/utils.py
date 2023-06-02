@@ -2,7 +2,7 @@ import cv2
 import numpy as np
 
 
-def create_running_text_video(text, width, height, duration):
+def create_running_text_video(text, text_color, bg_color, width, height, duration):
     fps = 30
     frames = duration * fps
     img = np.zeros((height, width, 3), dtype=np.uint8)
@@ -14,14 +14,16 @@ def create_running_text_video(text, width, height, duration):
     step = (width + text_size[0]) / total_frames
     video_path = 'running_text.mp4'
     video_writer = cv2.VideoWriter(video_path, cv2.VideoWriter_fourcc(*'mp4v'), fps, (width, height))
+    t_color = tuple(int(text_color.lstrip('#')[i:i+2], 16) for i in (4, 2, 0))
+    background_color = tuple(int(bg_color.lstrip('#')[i:i+2], 16) for i in (4, 2, 0))
     frame_counter = 0
 
-    while frame_counter < total_frames:
-        img.fill(0)
+    while frame_counter < total_frames:        
+        img[:] = background_color
         x -= step
         if x + text_size[0] < 0:
             break
-        cv2.putText(img, text, (int(x), y), font, 1, (255, 255, 255), 2, cv2.LINE_AA)
+        cv2.putText(img, text, (int(x), y), font, 1, t_color, 2, cv2.LINE_AA)
         video_writer.write(img)
         frame_counter += 1
 

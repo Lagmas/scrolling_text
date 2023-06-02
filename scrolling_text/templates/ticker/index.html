@@ -6,11 +6,51 @@
 </head>
 <body>
     <h1>Video Creator</h1>
-    <form method="POST" action="{% url 'app:index' %}">
+    <!-- <form method="POST" action="{% url 'app:index' %}">
         {% csrf_token %}
         <label for="text">Введите текст:</label>
         <input type="text" name="text" id="text" required>
         <button type="submit">Создать видео</button>
-    </form>
+    </form> -->
+    <form method="post" action="{% url 'app:index' %}">
+        {% csrf_token %}
+        <label for="text">Текст:</label>
+        <input type="text" id="text" name="text" maxlength="50" required>
+        <br>
+        <label for="text_color">Цвет текста:</label>
+        <input type="color" id="text_color" name="text_color" value="#000000" required>
+        <br>
+        <label for="bg_color">Цвет фона:</label>
+        <input type="color" id="bg_color" name="bg_color" value="#FFFFFF" required>
+        <br>
+        <input type="submit" value="Создать видео">
+      </form>
+    <!-- <form method="POST" action="{% url 'app:index' %}">
+        {% csrf_token %}
+        <input type="text" name="text" placeholder="Введите текст">
+        
+        <label for="text_color">Цвет текста:</label>
+        <select name="text_color" id="text_color">
+          <option value="#000000">Черный</option>
+          <option value="#ff0000">Красный</option>
+          <option value="#00ff00">Зеленый</option>
+          <option value="#0000ff">Синий</option>
+          
+        </select>
+        
+        <label for="bg_color">Цвет фона:</label>
+        <select name="bg_color" id="bg_color">
+          <option value="#ffffff">Белый</option>
+          <option value="#ff0000">Красный</option>
+          <option value="#00ff00">Зеленый</option>
+          <option value="#0000ff">Синий</option>
+          
+        </select>
+        
+        <button type="submit">Создать видео</button>
+      </form> -->
 </body>
 </html>
+
+
+  

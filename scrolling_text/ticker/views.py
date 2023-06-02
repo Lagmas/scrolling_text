@@ -8,12 +8,14 @@ from .models import RunningTextHistory
 def index(request):
     if request.method == 'POST':
         text = request.POST.get('text', '')
+        text_color = request.POST.get('text_color', '#000000')
+        bg_color = request.POST.get('bg_color', '#0000FF')
         if not (1 <= len(text) <= 40):
             return HttpResponse('Количество символов должно быть от 1 до 40', status=400)
         width = 100
         height = 100
         duration = 3
-        video_response = create_running_text_video(text, width, height, duration)
+        video_response = create_running_text_video(text, text_color, bg_color, width, height, duration)
         if video_response:
             history_entry = RunningTextHistory(text=text)
             history_entry.save()
