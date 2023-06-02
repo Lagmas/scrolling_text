@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from .utils import create_running_text_video
 import os
+from .models import RunningTextHistory
 
 
 def index(request):
@@ -14,6 +15,8 @@ def index(request):
         duration = 3
         video_response = create_running_text_video(text, width, height, duration)
         if video_response:
+            history_entry = RunningTextHistory(text=text)
+            history_entry.save()
             with open(video_response, 'rb') as file:
                 response = HttpResponse(file.read(), content_type='video/mp4')
                 name = "running_text.mp4"
