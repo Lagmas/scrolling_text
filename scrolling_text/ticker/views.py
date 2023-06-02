@@ -1,7 +1,8 @@
+import os
+
 from django.shortcuts import render
 from django.http import HttpResponse
 from .utils import create_running_text_video
-import os
 from .models import RunningTextHistory
 
 
