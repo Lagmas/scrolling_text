@@ -10,10 +10,11 @@ SECRET_KEY = os.getenv('SECRET_KEY')
 DEBUG = True
 
 ALLOWED_HOSTS = [
+    'colab.research.google.com',
     '127.0.0.1',
     'www.Lagmas1.pythonanywhere.com',
     'Lagmas1.pythonanywhere.com',
-] 
+]
 
 
 INSTALLED_APPS = [
